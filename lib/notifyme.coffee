@@ -27,7 +27,7 @@ _ = require 'lodash'
 Q = require 'q'
 twilio = require('twilio')(nconf.get('twilio_sid'), nconf.get('twilio_auth_token'))
 
-CONFIG_KEYS = ['phone_number', 'twilio_sid', 'twilio_auth_token', 'twilio_phone_number']
+CONFIG_KEYS = ['message', 'phone_number', 'twilio_sid', 'twilio_auth_token', 'twilio_phone_number']
 
 log = (args...)->
   if argv.debug
@@ -54,7 +54,7 @@ exports.run = ->
     process.stdin.setEncoding('utf8')
     process.stdin.pipe process.stdout
     process.stdin.on 'end', ->
-      done_message = if argv.message then argv.message else nconf.get('sms_message') || 'Task done! yey'
+      done_message = if argv.message then argv.message else nconf.get('message') || 'Task done! yey'
       growl done_message, title: 'Done'
       if argv.sms or argv.by == 'sms'
         sms_to = if argv.sms then "+#{argv.sms}" else "+#{nconf.get('phone_number')}"

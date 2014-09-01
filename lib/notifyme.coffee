@@ -6,6 +6,7 @@ argv = require('minimist')(process.argv.slice(2),
   default:
     growl: true
     sms: null
+    voice: null
     debug: false
     by: null
     message: null
@@ -16,7 +17,9 @@ argv = require('minimist')(process.argv.slice(2),
     s: "sms"
     b: "by"
     m: "message"
-    v: "version"
+    vv: "version"
+    v: "voice"
+  boolean: ['debug', 'version']
   )
 
 growl = require 'growl'
@@ -25,6 +28,7 @@ nconf = require 'nconf'
 nconf.file DB_PATH
 _ = require 'lodash'
 Q = require 'q'
+say = require 'say'
 twilio = require('twilio')(nconf.get('twilio_sid'), nconf.get('twilio_auth_token'))
 
 CONFIG_KEYS = ['message', 'phone_number', 'twilio_sid', 'twilio_auth_token', 'twilio_phone_number']
@@ -71,3 +75,9 @@ exports.run = ->
           else
             log err
         )
+      if argv.voice
+        voice_map =
+          male: 'Alex'
+          female: 'Kathy'
+        voice = voice_map[argv.voice] || 'Kathy'
+        say.speak voice, done_message

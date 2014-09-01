@@ -1,0 +1,39 @@
+{
+  "name": "notifyme",
+  "version": "0.1.0",
+  "description": "Notify me when task is done",
+  "main": "index.coffee",
+  "bin": {
+    "notifyme": "./bin/notifyme"
+  },
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hybridknight/notifyme"
+  },
+  "keywords": [
+    "notification",
+    "twilio",
+    "command-line"
+  ],
+  "author": "Metwara Narksook",
+  "license": "MIT",
+  "directories": {
+    "lib": "./lib"
+  },
+  "bugs": {
+    "url": "https://github.com/hybridknight/notifyme/issues"
+  },
+  "homepage": "https://github.com/hybridknight/notifyme",
+  "dependencies": {
+    "coffee-script": "~1.8.0",
+    "minimist": "~1.1.0",
+    "growl": "~1.8.1",
+    "twilio": "~1.7.0",
+    "lodash": "latest",
+    "q": "latest",
+    "nconf": "0.6.9"
+  }
+}

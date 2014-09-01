@@ -1,7 +1,7 @@
 notifyme
 ========
 
-Notify me when task is done
+Notify me when task is done. This thing can pop a Growl notification, send an SMS to your mobile, and even speak to you.
 
 Installation
 ---

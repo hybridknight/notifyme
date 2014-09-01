@@ -29,7 +29,11 @@ nconf.file DB_PATH
 _ = require 'lodash'
 Q = require 'q'
 say = require 'say'
-twilio = require('twilio')(nconf.get('twilio_sid'), nconf.get('twilio_auth_token'))
+
+if nconf.get('twilio_sid') and nconf.get('twilio_auth_token') and nconf.get('twilio_phone_number')
+  twilio = require('twilio')(nconf.get('twilio_sid'), nconf.get('twilio_auth_token'))
+else
+  twilio = null
 
 CONFIG_KEYS = ['message', 'phone_number', 'twilio_sid', 'twilio_auth_token', 'twilio_phone_number']
 
@@ -61,6 +65,7 @@ exports.run = ->
       done_message = if argv.message then argv.message else nconf.get('message') || 'Task done! yey'
       growl done_message, title: 'Done'
       if argv.sms or argv.by == 'sms'
+        return console.warn "Cannot send SMS. Please reconfigure Twilio." unless twilio
         sms_to = if argv.sms then "+#{argv.sms}" else "+#{nconf.get('phone_number')}"
         twilio.sendMessage({
           to: sms_to

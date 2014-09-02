@@ -57,6 +57,7 @@ Overide configured phone number and use `66613334221` instead.
 
     --by        Select notification method eg. sms
     --sms       Send SMS to this number instead of using configured number
+    --voice     Notify by voice eg. male, female
     --growl     Turn on/off Growl notification
     --message   Custom notification message
     --debug     Enable debug mode

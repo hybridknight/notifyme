@@ -38,12 +38,12 @@ global.log = (args...)->
     console.log.apply @, args
 
 exports.run = ->
-  log "argv:", argv
   return console.log require(path.resolve __dirname, "../package.json").version if argv.version
   if argv.by
     notify_by = argv.by.split ","
     _.each notify_by, (b)->
-      argv[b] = true
+      argv[b] = argv[b] || true
+  log "argv:", argv
   if argv._[0] == 'set'
     config = argv._.slice(1)
     _.map config, (e)->

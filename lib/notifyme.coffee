@@ -1,6 +1,15 @@
+# locate configurations file
 path = require 'path'
 HOME_PATH = process.env.HOME or '/tmp'
 DB_PATH = path.resolve HOME_PATH, '.notifyme/config.json'
+nconf = require 'nconf'
+nconf.file DB_PATH
+
+_ = require 'lodash'
+
+voice_notifier = require './notifiers/voice_notifier.coffee'
+growl_notifier = require './notifiers/growl_notifier.coffee'
+sms_notifier = require './notifiers/sms_notifier.coffee'
 
 argv = require('minimist')(process.argv.slice(2),
   default:
@@ -22,19 +31,6 @@ argv = require('minimist')(process.argv.slice(2),
   boolean: ['debug', 'version']
   )
 
-growl = require 'growl'
-command = process.argv.slice(2).join " "
-nconf = require 'nconf'
-nconf.file DB_PATH
-_ = require 'lodash'
-Q = require 'q'
-say = require 'say'
-
-if nconf.get('twilio_sid') and nconf.get('twilio_auth_token') and nconf.get('twilio_phone_number')
-  twilio = require('twilio')(nconf.get('twilio_sid'), nconf.get('twilio_auth_token'))
-else
-  twilio = null
-
 CONFIG_KEYS = ['message', 'phone_number', 'twilio_sid', 'twilio_auth_token', 'twilio_phone_number']
 
 log = (args...)->
@@ -42,9 +38,12 @@ log = (args...)->
     console.log.apply @, args
 
 exports.run = ->
-  log argv
-  log process.argv
+  log "argv:", argv
   return console.log require(path.resolve __dirname, "../package.json").version if argv.version
+  if argv.by
+    notify_by = argv.by.split ","
+    _.each notify_by, (b)->
+      argv[b] = true
   if argv._[0] == 'set'
     config = argv._.slice(1)
     _.map config, (e)->
@@ -63,26 +62,8 @@ exports.run = ->
     process.stdin.pipe process.stdout
     process.stdin.on 'end', ->
       done_message = if argv.message then argv.message else nconf.get('message') || 'Task done! yey'
-      growl done_message, title: 'Done'
+      growl_notifier.notify log, argv, nconf, done_message
       if argv.sms or argv.by == 'sms'
-        return console.warn "Cannot send SMS. Please reconfigure Twilio." unless twilio
-        sms_to = if argv.sms then "+#{argv.sms}" else "+#{nconf.get('phone_number')}"
-        twilio.sendMessage({
-          to: sms_to
-          from: nconf.get 'twilio_phone_number'
-          body: done_message
-        }, (err, responseData)->
-          if !err
-            log "sms sent"
-            log "to:", responseData.to
-            log "form:", responseData.from
-            log "body:", responseData.body
-          else
-            log err
-        )
+        sms_notifier.notify log, argv, nconf, done_message
       if argv.voice
-        voice_map =
-          male: 'Alex'
-          female: 'Kathy'
-        voice = voice_map[argv.voice] || 'Kathy'
-        say.speak voice, done_message
+        voice_notifier.notify log, argv, nconf, done_message

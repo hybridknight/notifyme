@@ -1,6 +1,7 @@
+config = require('../config.coffee').config()
 say = require 'say'
 
-exports.notify = (argv, config, done_message)->
+exports.notify = (argv, done_message)->
   voice_map =
     male: 'Alex'
     female: 'Kathy'

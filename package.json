@@ -1,6 +1,6 @@
 {
   "name": "notifyme",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Notify me when task is done. This thing can pop a Growl notification, send an SMS/push notification to your mobile, and even speak to you.",
   "main": "index.coffee",
   "bin": {

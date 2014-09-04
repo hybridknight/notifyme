@@ -1,4 +1,4 @@
-exports.notify = (log, argv, config, done_message)->
+exports.notify = (argv, config, done_message)->
   if config.get('twilio_sid') and config.get('twilio_auth_token') and config.get('twilio_phone_number')
     twilio = require('twilio')(config.get('twilio_sid'), config.get('twilio_auth_token'))
   else

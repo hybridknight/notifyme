@@ -33,7 +33,7 @@ argv = require('minimist')(process.argv.slice(2),
 
 CONFIG_KEYS = ['message', 'phone_number', 'twilio_sid', 'twilio_auth_token', 'twilio_phone_number']
 
-log = (args...)->
+global.log = (args...)->
   if argv.debug
     console.log.apply @, args
 
@@ -62,8 +62,8 @@ exports.run = ->
     process.stdin.pipe process.stdout
     process.stdin.on 'end', ->
       done_message = if argv.message then argv.message else nconf.get('message') || 'Task done! yey'
-      growl_notifier.notify log, argv, nconf, done_message
+      growl_notifier.notify argv, nconf, done_message
       if argv.sms or argv.by == 'sms'
-        sms_notifier.notify log, argv, nconf, done_message
+        sms_notifier.notify argv, nconf, done_message
       if argv.voice
-        voice_notifier.notify log, argv, nconf, done_message
+        voice_notifier.notify argv, nconf, done_message

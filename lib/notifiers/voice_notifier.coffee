@@ -1,6 +1,6 @@
 say = require 'say'
 
-exports.notify = (log, argv, config, done_message)->
+exports.notify = (argv, config, done_message)->
   voice_map =
     male: 'Alex'
     female: 'Kathy'

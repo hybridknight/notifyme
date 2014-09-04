@@ -11,6 +11,7 @@ argv = require('minimist')(process.argv.slice(2),
     growl: true
     sms: null
     voice: null
+    push: false
     debug: false
     by: null
     message: null
@@ -19,6 +20,7 @@ argv = require('minimist')(process.argv.slice(2),
     d: "debug"
     g: "growl"
     s: "sms"
+    p: "push"
     b: "by"
     m: "message"
     vv: "version"

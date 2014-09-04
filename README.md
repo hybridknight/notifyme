@@ -26,8 +26,8 @@ Use `set` command to set configuration:
     $ notifyme set key=value
 
 Available configurations:
-- *message* - message to show when task is don
-- *phone_number* - message will be sent to this number
+- *message* - Message to be sent when task is done
+- *phone_number* - Message will be sent to this phone number
 - *twilio_sid* - Twilio SID
 - *twilio_auth_token* - Twilio Auth Token
 - *twilio_phone_number* - Twilio Phone Number
@@ -45,17 +45,17 @@ Usage
 
     $ long-running task | notifyme [options]
 
-**notifyme** reads stdin and pipe it to stdout while taks is running. After task is done, notification message specified in options will be sent.
+**notifyme** reads stdin and pipes it to stdout while taks is running. After task is done, notification message specified in options will be sent.
 
     $ long-running task | notifyme --by=sms
 
-Notify by SMS to cofigured phone number. Growl notification is the default method.
+Notify by SMS to configured phone number. Growl notification is the default method.
 
     $ long-running task | notifyme --sms=66613334221
 
 Overide configured phone number and use `66613334221` instead.
 
-    --by        Select notification method eg. sms
+    --by        Select notification method e.g. sms, voice, growl, ex. "sms,voice"
     --sms       Send SMS to this number instead of using configured number
     --voice     Notify by voice eg. male, female
     --growl     Turn on/off Growl notification

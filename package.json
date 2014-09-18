@@ -1,6 +1,6 @@
 {
   "name": "notifyme",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Notify me when task is done. This thing can pop a Growl notification, send an SMS/push notification to your mobile, and even speak to you.",
   "main": "index.coffee",
   "bin": {
@@ -36,6 +36,7 @@
     "nconf": "0.6.9",
     "say": "0.5.0",
     "xrequire": "~0.4.0",
-    "instapush": "hybridknight/instapush-nodejs"
+    "instapush": "hybridknight/instapush-nodejs",
+    "mkdirp": "latest"
   }
 }
